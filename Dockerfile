@@ -6,8 +6,10 @@ RUN npm i -g typescript nodemon ts-node
 
 WORKDIR /app
 
-ENTRYPOINT ["/bin/sh", "-c" , "npm i &&"]
-CMD [ "nodemon src/index.ts" ]
+# ENTRYPOINT npm i && nodemon src/index.ts # this is working
+
+ENTRYPOINT ["/bin/bash" , "-c" ]
+CMD ["npm i && nodemon src/index.ts" ]
 
 
 
