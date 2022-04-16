@@ -1,5 +1,6 @@
 #!/bin/sh
 # run from <...>/scripts
+# !!! if u have any http request level test, make sure the port is right 
 cd ../
 sudo docker build -t run_ts_image . # build TODO: make the build conditional on flag --rebuild
 sudo chown -R $USER:$(id -gn $USER) ./* # give permmisions in order to be able to adit the files
