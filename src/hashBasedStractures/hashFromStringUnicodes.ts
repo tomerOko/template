@@ -1,6 +1,5 @@
-import { HashFucntion } from "./hashBasedStracutes.types";
 
-const hashFromStringUnicodes: HashFucntion = {
+const hashFromStringUnicodes = {
     range:2**16,
     hash: (key : string) : number => {
         let hash = 0;
