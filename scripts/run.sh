@@ -3,12 +3,13 @@
 cd ../ 
 
 # load flags from the run command (bash <script name>.sh --<flag key> <flag value>)
-while getopts i:c:p: flag
+while getopts i:c:p:r: flag
 do
     case "${flag}" in
         i) imageName=${OPTARG};;
         c) containerName=${OPTARG};;
         p) port=${OPTARG};;
+        r) runCommand=${OPTARG};;
     esac
 done
 
@@ -18,11 +19,15 @@ if [ -z "$imageName" ];then
 fi
 
 if [ -z "$containerName" ];then
-    containerName="run_ts_container";
+    containerName="run_ts_test_container";
 fi
 
 if [ -z "$port" ];then
-    port=3005;
+    port=3006;
+fi
+
+if [ -z "$runCommand" ];then
+    runCommand="";
 fi
 
 # look for arguments
@@ -41,13 +46,9 @@ then
 else
     sudo docker build -t $imageName . # build
 fi
-
 sudo chown -R $USER:$(id -gn $USER) ./* # give permmisions in order to be able to adit the files
 docker container rm -f $containerName # remove container if allready runing
-docker run -itd --name $containerName -p $port:3000 -v "$(pwd)"/:/app/ $imageName # run the container (entrypoint in dockerfile)
+docker run -itd --name $containerName -p $port:3000 -v "$(pwd)"/:/app/ $imageName "$runCommand" # run the container (entrypoint in dockerfile)
 sleep 1 # give the container a second to boot
 docker container ls --filter name=$containerName # make sure the container is actualy runing
 docker logs --follow $containerName # connect the shell to the container's logs outpout
-
-# open new terminal and run :
-# docker container exec -it run_ts_container bash
