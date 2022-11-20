@@ -1,5 +1,9 @@
 
-const hashFromStringUnicodes = {
+interface Hash<T>{
+    range: T
+    hash: (key: string) => T
+}
+const hashFromStringUnicodes: Hash<number> = {
     range:2**16,
     hash: (key : string) : number => {
         let hash = 0;
